@@ -1,7 +1,10 @@
 import "dotenv/config";
 
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
 import Fastify from "fastify";
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
@@ -14,6 +17,28 @@ const app = Fastify({
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+// fastify plugin using swagger to make docs automatically generated
+await app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: "Training API",
+      description: "API for training management",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        description: "Localhost",
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUI, {
+  routePrefix: "/docs",
+});
 
 app.withTypeProvider<ZodTypeProvider>().route({
   method: "GET",
