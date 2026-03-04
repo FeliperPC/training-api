@@ -44,7 +44,7 @@ enum WeekDay {
   MONDAY
   TUESDAY
   WEDNESDAY
-  THIRSDAY
+  THURSDAY
   FRIDAY
   SATURDAY
   SUNDAY
@@ -57,6 +57,7 @@ model WorkoutDay {
   workoutPlan                WorkoutPlan       @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   isRest                     Boolean           @default(false)
   estimatedDurationInSeconds Int
+  coverImageUrl              String?
   weekDay                    WeekDay
   exercises                  WorkoutExercise[]
   createdAt                  DateTime          @default(now()) @db.Timestamptz()
@@ -65,16 +66,16 @@ model WorkoutDay {
 }
 
 model WorkoutExercise {
-  id              String     @id @default(uuid())
-  name            String
-  order           Int
-  workoutDayId    String
-  workoutDay      WorkoutDay @relation(fields: [workoutDayId], references: [id], onDelete: Cascade)
-  sets            Int
-  reps            Int
-  restTimeSeconds Int
-  createdAt       DateTime   @default(now()) @db.Timestamptz()
-  updatedAt       DateTime   @updatedAt @db.Timestamptz()
+  id                String     @id @default(uuid())
+  name              String
+  order             Int
+  workoutDayId      String
+  workoutDay        WorkoutDay @relation(fields: [workoutDayId], references: [id], onDelete: Cascade)
+  sets              Int
+  reps              Int
+  restTimeInSeconds Int
+  createdAt         DateTime   @default(now()) @db.Timestamptz()
+  updatedAt         DateTime   @updatedAt @db.Timestamptz()
 }
 
 model WorkoutSession {
