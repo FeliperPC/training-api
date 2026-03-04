@@ -15,7 +15,7 @@ interface InputDto {
       name: string;
       sets: number;
       reps: number;
-      restTimeInSeconds: number;
+      restTimeSeconds: number;
     }>;
   }>;
 }
@@ -36,6 +36,7 @@ export class CreateWorkoutPlan {
       }
       const workoutPlan = await tx.workoutPlan.create({
         data: {
+          id: crypto.randomUUID(),
           name: dto.name,
           userId: dto.userId,
           isActive: true,
@@ -51,7 +52,7 @@ export class CreateWorkoutPlan {
                   order: exercise.order,
                   sets: exercise.sets,
                   reps: exercise.reps,
-                  restTimeSeconds: exercise.restTimeInSeconds,
+                  restTimeSeconds: exercise.restTimeSeconds,
                 })),
               },
             })),
