@@ -111,6 +111,52 @@ export const GetWorkoutDayResponseSchema = z.object({
   ),
 });
 
+export const ListWorkoutPlansQuerySchema = z.object({
+  active: z
+    .enum(["true", "false"])
+    .transform((v) => v === "true")
+    .optional(),
+});
+
+export const ListWorkoutPlansResponseSchema = z.array(
+  z.object({
+    id: z.string(),
+    name: z.string(),
+    isActive: z.boolean(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    workoutDays: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        weekDay: z.string(),
+        isRest: z.boolean(),
+        estimatedDurationInSeconds: z.number(),
+        coverImageUrl: z.string().optional(),
+        exercises: z.array(
+          z.object({
+            id: z.string(),
+            name: z.string(),
+            order: z.number(),
+            workoutDayId: z.string(),
+            sets: z.number(),
+            reps: z.number(),
+            restTimeInSeconds: z.number(),
+          }),
+        ),
+        sessions: z.array(
+          z.object({
+            id: z.string(),
+            workoutDayId: z.string(),
+            startedAt: z.string(),
+            completedAt: z.string().optional(),
+          }),
+        ),
+      }),
+    ),
+  }),
+);
+
 export const GetStatsQuerySchema = z.object({
   from: z.iso.date(),
   to: z.iso.date(),
