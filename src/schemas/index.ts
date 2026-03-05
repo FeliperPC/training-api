@@ -157,6 +157,17 @@ export const ListWorkoutPlansResponseSchema = z.array(
   }),
 );
 
+export const GetMeResponseSchema = z
+  .object({
+    userId: z.string(),
+    userName: z.string(),
+    weightInGrams: z.number(),
+    heightInCentimeters: z.number(),
+    age: z.number(),
+    bodyFatPercentage: z.number(),
+  })
+  .nullable();
+
 export const GetStatsQuerySchema = z.object({
   from: z.iso.date(),
   to: z.iso.date(),
