@@ -35,6 +35,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
     method: "POST",
     url: "",
     schema: {
+      operationId: "createWorkoutPlan",
       tags: ["Workout Plan"],
       summary: "Create a workout plan",
       body: WorkoutPlanSchema.omit({ id: true }),
@@ -83,6 +84,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
     method: "GET",
     url: "",
     schema: {
+      operationId: "listWorkoutPlans",
       tags: ["Workout Plan"],
       summary: "List workout plans",
       querystring: ListWorkoutPlansQuerySchema,
@@ -110,6 +112,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         });
         return reply.status(200).send(result);
       } catch (error) {
+        app.log.error(error);
         return reply.status(500).send({
           error: "Internal server error",
           code: "INTERNAL_SERVER_ERROR",
@@ -122,6 +125,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
     method: "GET",
     url: "/:workoutPlanId",
     schema: {
+      operationId: "getWorkoutPlan",
       tags: ["Workout Plan"],
       summary: "Get a workout plan",
       params: GetWorkoutPlanParamsSchema,
@@ -169,6 +173,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
     url: "/:workoutPlanId/days/:workoutDayId",
     schema: {
       tags: ["Workout Plan"],
+      operationId: "getWorkoutDay",
       summary: "Get a workout day",
       params: GetWorkoutDayParamsSchema,
       response: {
@@ -215,6 +220,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
     method: "POST",
     url: "/:workoutPlanId/days/:workoutDayId/sessions",
     schema: {
+      operationId: "startWorkoutSession",
       tags: ["Workout Plan"],
       summary: "Start a workout session",
       params: StartWorkoutSessionParamsSchema,
@@ -276,6 +282,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
     method: "PATCH",
     url: "/:workoutPlanId/days/:workoutDayId/sessions/:sessionId",
     schema: {
+      operationId: "completeWorkoutSession",
       tags: ["Workout Plan"],
       summary: "Complete a workout session",
       params: CompleteWorkoutSessionParamsSchema,

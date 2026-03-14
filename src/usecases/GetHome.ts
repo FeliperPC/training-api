@@ -24,7 +24,7 @@ interface InputDto {
 
 interface OutputDto {
   activeWorkoutPlanId: string;
-  todayWorkoutDay: {
+  todayWorkoutDay?: {
     workoutPlanId: string;
     id: string;
     name: string;
@@ -64,10 +64,6 @@ export class GetHome {
     const todayWorkoutDay = workoutPlan.workoutDays.find(
       (d) => d.weekDay === todayWeekDay,
     );
-
-    if (!todayWorkoutDay) {
-      throw new NotFoundError("No workout day found for the given date");
-    }
 
     const weekStart = inputDate.day(0).startOf("day");
     const weekEnd = inputDate.day(6).endOf("day");
@@ -113,7 +109,7 @@ export class GetHome {
 
     return {
       activeWorkoutPlanId: workoutPlan.id,
-      todayWorkoutDay: {
+      todayWorkoutDay: todayWorkoutDay ? {
         workoutPlanId: workoutPlan.id,
         id: todayWorkoutDay.id,
         name: todayWorkoutDay.name,
@@ -122,7 +118,7 @@ export class GetHome {
         estimatedDurationInSeconds: todayWorkoutDay.estimatedDurationInSeconds,
         coverImageUrl: todayWorkoutDay.coverImageUrl ?? undefined,
         exercisesCount: todayWorkoutDay._count.exercises,
-      },
+      } : undefined,
       workoutStreak,
       consistencyByDay,
     };

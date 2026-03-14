@@ -11,6 +11,7 @@ export const meRoutes = async (app: FastifyInstance) => {
     method: "GET",
     url: "",
     schema: {
+      operationId: "getMe",
       tags: ["User"],
       summary: "Get current user train data",
       response: {
@@ -36,6 +37,7 @@ export const meRoutes = async (app: FastifyInstance) => {
         });
         return reply.status(200).send(result);
       } catch (error) {
+        app.log.error(error);
         return reply.status(500).send({
           error: "Internal server error",
           code: "INTERNAL_SERVER_ERROR",
