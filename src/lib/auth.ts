@@ -3,15 +3,16 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { openAPI } from "better-auth/plugins";
 
 import { prisma } from "./db.js";
+import { env } from "./env.js";
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL as string,
-  trustedOrigins: ["http://localhost:3000"],
+  baseURL: env.API_BASE_URL,
+  trustedOrigins: [env.WEB_APP_BASE_URL],
   socialProviders:{
     google:{
-      provider: "select_account", // obligates google to show the account selection on login
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      provider: "select_account",
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }
   },
   database: prismaAdapter(prisma, {
