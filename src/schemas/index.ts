@@ -37,7 +37,7 @@ export const GetHomeParamsSchema = z.object({
 });
 
 export const GetHomeResponseSchema = z.object({
-  activeWorkoutPlanId: z.string(),
+  activeWorkoutPlanId: z.string().optional(),
   todayWorkoutDay: z.object({
     workoutPlanId: z.string(),
     id: z.string(),

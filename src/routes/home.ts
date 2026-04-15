@@ -2,7 +2,6 @@ import { fromNodeHeaders } from "better-auth/node";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 
-import { NotFoundError } from "../errors/index.js";
 import { auth } from "../lib/auth.js";
 import {
   ErrorSchema,
@@ -23,7 +22,6 @@ export const homeRoutes = async (app: FastifyInstance) => {
       response: {
         200: GetHomeResponseSchema,
         401: ErrorSchema,
-        404: ErrorSchema,
         500: ErrorSchema,
       },
     },
@@ -44,13 +42,7 @@ export const homeRoutes = async (app: FastifyInstance) => {
           date: request.params.date,
         });
         return reply.status(200).send(result);
-      } catch (error) {
-        if (error instanceof NotFoundError) {
-          return reply.status(404).send({
-            error: error.message,
-            code: "NOT_FOUND_ERROR",
-          });
-        }
+      } catch {
         return reply.status(500).send({
           error: "Internal server error",
           code: "INTERNAL_SERVER_ERROR",
