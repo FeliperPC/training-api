@@ -126,7 +126,7 @@ app.route({
   async handler(request, reply) {
     try {
       // Construct request URL
-      const url = new URL(request.url, `http://${request.headers.host}`);
+      const url = new URL(request.url, env.API_BASE_URL);
 
       // Convert Fastify headers to standard Headers object
       const headers = new Headers();
