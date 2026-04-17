@@ -118,12 +118,17 @@ await app.register(meRoutes, { prefix: "/me" });
 await app.register(aiRoutes, { prefix: "/ai" });
 
 app.route({
-  method: ["GET", "POST"],
+  method: ["GET", "POST", "OPTIONS"],
   url: "/api/auth/*",
   schema:{
     hide: true,
   },
   async handler(request, reply) {
+    if (request.method === "OPTIONS") {
+      reply.status(204).send();
+      return;
+    }
+
     try {
       // Construct request URL
       const url = new URL(request.url, env.API_BASE_URL);
