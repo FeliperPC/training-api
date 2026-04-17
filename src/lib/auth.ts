@@ -7,7 +7,7 @@ import { env } from "./env.js";
 
 export const auth = betterAuth({
   baseURL: env.API_BASE_URL,
-  trustedOrigins: [env.WEB_APP_BASE_URL],
+  trustedOrigins: [env.WEB_APP_BASE_URL, "https://*.training-ai.site"],
   socialProviders:{
     google:{
       provider: "select_account",
